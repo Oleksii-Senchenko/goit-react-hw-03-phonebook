@@ -8,17 +8,7 @@ class ContactForm extends Component {
   };
 
 
-componentDidMount(){
-  console.log('Mount');
-}
 
-componentDidUpdate(){
-  console.log('Update');
-}
-
-componentWillUnmount(){
-  console.log('Unmount');
-}
 
   handleChange = ({ target }) => {
     const { name, value } = target;

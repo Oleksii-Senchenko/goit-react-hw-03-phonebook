@@ -18,10 +18,8 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('App componentDidUpdate');
 
     if (this.state.contacts !== prevState.contacts) {
-      console.log('Обнловилось поле контакс');
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }

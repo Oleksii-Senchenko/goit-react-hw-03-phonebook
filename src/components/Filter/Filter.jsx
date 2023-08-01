@@ -13,7 +13,7 @@ function Filter({ onChange, searchQuery }) {
           required
           value={searchQuery}
           onChange={onChange}
-          className={css.input} // Применяем стиль к input
+          className={css.input}
         />
       </label>
     </form>
