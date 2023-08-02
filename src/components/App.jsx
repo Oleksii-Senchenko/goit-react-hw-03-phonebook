@@ -3,7 +3,6 @@ import ContactForm from './ContactForm/ContactForm';
 import ContactList from './Contactlist/Contactlist';
 import Filter from './Filter/Filter';
 import { nanoid } from 'nanoid';
-// const contactsKey = 'contacts';
 
 export class App extends Component {
   state = {
@@ -18,15 +17,15 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-
     if (this.state.contacts !== prevState.contacts) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
+    const contact = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contact);
+
     if (parsedContacts) {
       this.setState({
         contacts: parsedContacts,
@@ -38,24 +37,28 @@ export class App extends Component {
     const finedNumber = this.state.contacts.find(
       contact => contact.number.toLowerCase() === data.number.toLowerCase()
     );
+
     if (finedNumber) {
       alert(
         `In your phoneBook already have this number his name is ${finedNumber.name}`
       );
       return;
     }
+
     const newContact = {
       ...data,
       id: nanoid(),
     };
 
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
+    this.setState(prev => ({
+      contacts: [...prev.contacts, newContact],
     }));
   };
 
   onChange = ({ target }) => {
-    const normalizedValue = target.value.trim().toLowerCase();
+    const { value } = target;
+
+    const normalizedValue = value.toLowerCase().trim();
 
     this.setState({
       searchQuery: normalizedValue,
@@ -63,26 +66,26 @@ export class App extends Component {
   };
 
   getFilteredContacts = () => {
-    const normalizedFilter = this.state.searchQuery.trim().toLowerCase();
+    const normalizedFilter = this.state.searchQuery.toLowerCase().trim();
+
     return this.state.contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizedFilter)
     );
   };
 
   deliteElement = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    this.setState(prev => ({
+      contacts: prev.contacts.filter(contact => contact.id !== id),
     }));
   };
 
   render() {
-    const filteredContacts = this.getFilteredContacts();
     return (
       <>
         <ContactForm addContact={this.addContact} />
         <Filter onChange={this.onChange} searchQuery={this.state.searchQuery} />
         <ContactList
-          contacts={filteredContacts}
+          contacts={this.getFilteredContacts()}
           deliteElement={this.deliteElement}
         />
       </>

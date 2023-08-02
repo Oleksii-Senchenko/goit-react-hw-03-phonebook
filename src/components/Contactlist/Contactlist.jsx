@@ -8,9 +8,9 @@ function Contactlist({ contacts, deliteElement }) {
       <h2 className={css.title}>Contact List</h2>
       <ul className={css.list}>
         {contacts.map(({ name, number, id }) => (
-          <li key={number} className={css.item}>
+          <li key={id} className={css.item}>
             <p className={css.name}>
-              {name}: {number}
+              {name}:{number}
             </p>
             <button onClick={() => deliteElement(id)}>Delite</button>
           </li>
